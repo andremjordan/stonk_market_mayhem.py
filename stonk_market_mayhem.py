@@ -12,13 +12,13 @@ stocks = {
 portfolio = {}
 money = 10000
 
-def show_menu():
+def show_menu() -> None:
+    """Display the main menu options to the user."""
     print("1. View Stocks")
     print("2. Buy Stock")
     print("3. Sell Stock")
     print("4. View Portfolio")
     print("5. Exit")
-
 def view_stocks():
     for stock, price in stocks.items():
         # Prices fluctuate wildly each time you look
@@ -52,12 +52,21 @@ def sell_stock():
     else:
         print("You don’t own that much.")
 
-def view_portfolio():
+def view_portfolio() -> None:
+    """Display the user's current portfolio and cash balance."""
     print("Your portfolio:")
-    for stock, qty in portfolio.items():
-        print(f"{stock}: {qty} shares")
-    print(f"Cash: ${money}")
+    total_value = 0
 
+    if not portfolio:
+        print("  No stocks owned.")
+
+    for stock, qty in portfolio.items():
+        value = qty * stocks[stock]
+        total_value += value
+        print(f"{stock}: {qty} shares (${stocks[stock]} each, total: ${value})")
+
+    print(f"Cash: ${money}")
+    print(f"Total portfolio value: ${total_value + money}")
 while True:
     show_menu()
     choice = input("Choose an option: ")
